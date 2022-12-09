@@ -6,7 +6,6 @@
     "prettier"
   ],
   "rules": {
-    // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
     "import/order": [
       "error",
       {
@@ -20,8 +19,14 @@
           "object",
           "type"
         ],
-        "newlines-between": "always", // import groups の間を1行あける
-        "alphabetize": { "order": "asc", "caseInsensitive": true } // 大文字小文字関係なくアルファベット順にソート
+        "newlines-between": "always",
+        "alphabetize": { "order": "asc", "caseInsensitive": true }
+      }
+    ],
+    "react-hooks/exhaustive-deps": [
+      "error",
+      {
+        "enableDangerousAutofixThisMayCauseInfiniteLoops": true
       }
     ]
   }
