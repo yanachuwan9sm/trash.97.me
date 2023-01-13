@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "fix": "npm run lint --fix && npm run format",
+    "prepare": "husky install"
   },
   "dependencies": {
     "next": "13.0.5",
@@ -23,6 +25,8 @@
     "eslint": "8.29.0",
     "eslint-config-next": "13.0.6",
     "eslint-config-prettier": "8.5.0",
+    "husky": "8.0.2",
+    "lint-staged": "13.1.0",
     "prettier": "2.8.0",
     "typescript": "4.9.4"
   }
