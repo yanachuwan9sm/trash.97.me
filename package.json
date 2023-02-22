@@ -9,7 +9,8 @@
     "lint": "next lint",
     "format": "prettier --write .",
     "fix": "npm run lint --fix && npm run format",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "contentful-typescript-codegen": "contentful-typescript-codegen --output @types/generated/contentful.d.ts --namespace Contentful"
   },
   "dependencies": {
     "contentful": "9.3.3",
