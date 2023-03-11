@@ -22,10 +22,10 @@ export default async function Home() {
   const postList = postDate.items.map((item) => {
     const { id, createdAt, updatedAt } = item.sys
     return {
-      id,
-      createdAt: format(new Date(createdAt), 'MMM dd,yyyy'),
-      updatedAt: format(new Date(updatedAt), 'MMM dd,yyyy'),
       ...item.fields,
+      id,
+      createdAt: format(new Date(createdAt), 'MMM dd, yyyy'),
+      updatedAt: format(new Date(updatedAt), 'MMM dd, yyyy'),
     }
   })
 
