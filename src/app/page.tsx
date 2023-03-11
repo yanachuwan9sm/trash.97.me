@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import client from 'libs/client'
 
-import styles from '../styles/Home.module.css'
+import styles from './Home.module.css'
 
 const getBlogPosts = async (): Promise<
   contentful.EntryCollection<Contentful.IBlogPostFields>
