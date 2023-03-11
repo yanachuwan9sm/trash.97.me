@@ -49,8 +49,8 @@ export default async function Home() {
                 </h2>
                 <div>
                   <div>
-                    {category?.map(({ fields }, index) => (
-                      <div key={index}>{fields.title}</div>
+                    {category?.map(({ sys: { id }, fields: { title } }) => (
+                      <div key={id}>{title}</div>
                     ))}
                   </div>
                   <time>{createdAt}</time>
