@@ -19,8 +19,6 @@ const getBlogPosts = async (): Promise<
 export default async function Home() {
   const postDate = await getBlogPosts()
 
-  //* MEMO: 子コンポーネントにPropsを渡す際は、postDateを渡す
-
   const postList = postDate.items.map((item) => {
     const { id, createdAt, updatedAt } = item.sys
     return {
