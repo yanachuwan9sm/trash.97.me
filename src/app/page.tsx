@@ -20,14 +20,12 @@ export default async function Home() {
   const postDate = await getBlogPosts()
 
   const postList = postDate.items.map(
-    ({ sys: { id, createdAt, updatedAt }, fields }) => {
-      return {
-        ...fields,
-        id,
-        createdAt: format(new Date(createdAt), 'MMM dd, yyyy'),
-        updatedAt: format(new Date(updatedAt), 'MMM dd, yyyy'),
-      }
-    }
+    ({ sys: { id, createdAt, updatedAt }, fields }) => ({
+      ...fields,
+      id,
+      createdAt: format(new Date(createdAt), 'MMM dd, yyyy'),
+      updatedAt: format(new Date(updatedAt), 'MMM dd, yyyy'),
+    })
   )
 
   return (
