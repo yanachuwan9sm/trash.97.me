@@ -1,11 +1,13 @@
 import { h } from 'hastscript'
 import { compileMDX } from 'next-mdx-remote/rsc'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
 
 import type { Options as rehypeAutolinkHeadingsOpt } from 'rehype-autolink-headings'
+import type { Options as rehypePrettyCodeOpt } from 'rehype-pretty-code'
 
 const rehypeAutolinkHeadingsOpt: rehypeAutolinkHeadingsOpt = {
   behavior: 'prepend',
@@ -35,6 +37,11 @@ const rehypeAutolinkHeadingsOpt: rehypeAutolinkHeadingsOpt = {
   },
 }
 
+const rehypePrettyCodeOpt: Partial<rehypePrettyCodeOpt> = {
+  theme: 'one-dark-pro',
+  keepBackground: true,
+}
+
 const compile = async (source: string) => {
   return await compileMDX({
     source,
@@ -44,7 +51,9 @@ const compile = async (source: string) => {
         rehypePlugins: [
           rehypeSlug,
           [rehypeAutolinkHeadings, rehypeAutolinkHeadingsOpt],
+          [rehypePrettyCode, rehypePrettyCodeOpt],
         ],
+        format: 'md',
       },
       parseFrontmatter: false,
     },
