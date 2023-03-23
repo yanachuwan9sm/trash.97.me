@@ -1,4 +1,5 @@
 import { compileMDX } from 'next-mdx-remote/rsc'
+import rehypeSlug from 'rehype-slug'
 import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
 
@@ -8,6 +9,7 @@ const compile = async (source: string) => {
     options: {
       mdxOptions: {
         remarkPlugins: [remarkGfm, remarkBreaks],
+        rehypePlugins: [rehypeSlug],
       },
       parseFrontmatter: false,
     },
