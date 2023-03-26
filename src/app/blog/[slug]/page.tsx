@@ -36,8 +36,12 @@ export default async function BlogDetailPage({
 }: {
   params: { slug: string }
 }) {
-  const { title, source, createDate } = await getBlogPost(slug)
-  const { content } = await serializeMDX(source)
+  const {
+    sys: { createdAt },
+    fields: { title, content },
+  } = await getBlogPost(slug)
+  const createDate = format(new Date(createdAt), 'MMM dd, yyyy')
+  const { content: source } = await compile(content)
 
   return (
     <div>
@@ -48,7 +52,7 @@ export default async function BlogDetailPage({
             <time>{createDate}</time>
           </div>
         </header>
-        <div>{content}</div>
+        <div>{source}</div>
       </article>
     </div>
   )
