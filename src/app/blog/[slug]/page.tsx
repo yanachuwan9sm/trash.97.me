@@ -25,10 +25,10 @@ const getBlogPost = async (
 
 export async function generateStaticParams() {
   const post = await getBlogPosts()
-  const paths = post.items.map(({ sys: { id } }) => ({
+
+  return post.items.map(({ sys: { id } }) => ({
     slug: id,
   }))
-  return [...paths]
 }
 
 export default async function BlogDetailPage({
