@@ -1,14 +1,8 @@
 import * as contentful from 'contentful'
 import { format } from 'date-fns'
-import serializeMDX from 'libs/compile'
 
 import client from 'libs/client'
-
-type blogPostType = {
-  title: string
-  source: string
-  createDate: string
-}
+import serializeMDX from 'libs/compile'
 
 const getBlogPosts = async (): Promise<
   contentful.EntryCollection<Contentful.IBlogPostFields>
@@ -21,24 +15,12 @@ const getBlogPosts = async (): Promise<
   return blogPosts
 }
 
-const getBlogPost = async (slug: string): Promise<blogPostType> => {
-  const postData = await client.getEntries<Contentful.IBlogPostFields>({
-    content_type: 'blogPost',
-    'sys.id[match]': slug,
-  })
+const getBlogPost = async (
+  slug: string
+): Promise<contentful.Entry<Contentful.IBlogPostFields>> => {
+  const postData = await client.getEntry<Contentful.IBlogPostFields>(slug)
 
-  const {
-    sys: { createdAt },
-    fields: { title, content },
-  } = postData.items[0]
-
-  const createDate = format(new Date(createdAt), 'MMM dd, yyyy')
-
-  return {
-    title,
-    source: content,
-    createDate,
-  }
+  return postData
 }
 
 export async function generateStaticParams() {
