@@ -2,7 +2,7 @@ import * as contentful from 'contentful'
 import { format } from 'date-fns'
 
 import client from 'libs/client'
-import serializeMDX from 'libs/compile'
+import compile from 'libs/compile'
 
 const getBlogPosts = async (): Promise<
   contentful.EntryCollection<Contentful.IBlogPostFields>
