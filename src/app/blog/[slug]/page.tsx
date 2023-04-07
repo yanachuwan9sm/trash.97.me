@@ -1,7 +1,7 @@
 import * as contentful from 'contentful'
 import { format } from 'date-fns'
-import compile from 'libs/compile'
 
+import MdxContent from 'components/MdxContent'
 import client from 'libs/client'
 
 const getBlogPosts = async (): Promise<
@@ -41,7 +41,6 @@ export default async function Page({
     fields: { title, content },
   } = await getBlogPost(slug)
   const createDate = format(new Date(createdAt), 'MMM dd, yyyy')
-  const { content: source } = await compile(content)
 
   return (
     <div>
@@ -52,7 +51,7 @@ export default async function Page({
             <time>{createDate}</time>
           </div>
         </header>
-        <div>{source}</div>
+        <MdxContent source={content} />
       </article>
     </div>
   )
