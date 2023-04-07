@@ -1,8 +1,8 @@
 import * as contentful from 'contentful'
 import { format } from 'date-fns'
+import compile from 'libs/compile'
 
 import client from 'libs/client'
-import compile from 'libs/compile'
 
 const getBlogPosts = async (): Promise<
   contentful.EntryCollection<Contentful.IBlogPostFields>
@@ -31,7 +31,7 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function BlogDetailPage({
+export default async function Page({
   params: { slug },
 }: {
   params: { slug: string }

@@ -16,7 +16,7 @@ const getBlogPosts = async (): Promise<
   return blogPosts
 }
 
-export default async function Home() {
+export default async function Page() {
   const postDate = await getBlogPosts()
 
   const postList = postDate.items.map(
