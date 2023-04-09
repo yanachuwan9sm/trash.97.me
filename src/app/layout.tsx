@@ -1,4 +1,18 @@
 import '../styles/globals.css'
+import { Montserrat, Noto_Sans_JP } from 'next/font/google'
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+  display: 'swap',
+})
+
+const notojp = Noto_Sans_JP({
+  weight: ['400', '500'],
+  subsets: ['latin'],
+  variable: '--font-notojp',
+  display: 'swap',
+})
 
 import type { Metadata } from 'next'
 
@@ -18,7 +32,9 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
   return (
     <html lang='ja'>
       <head />
-      <body>{children}</body>
+      <body className={`${montserrat.variable} ${notojp.variable}`}>
+        {children}
+      </body>
     </html>
   )
 }
