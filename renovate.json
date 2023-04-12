@@ -1,32 +1,32 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dependencyDashboard": true,
   "extends": [
     "config:base",
     ":timezone(Asia/Tokyo)",
     ":followTag(typescript, next)"
   ],
-  "schedule": ["after 7am every weekend", "before 10pm every weekend"],
-  "dependencyDashboard": true,
   "packageRules": [
     {
-      "matchUpdateTypes": ["patch", "pin"],
-      "automerge": true
+      "automerge": true,
+      "matchUpdateTypes": ["patch", "pin"]
     },
     {
-      "matchUpdateTypes": "major",
-      "addLabels": ["major-update"]
+      "addLabels": ["major-update"],
+      "matchUpdateTypes": "major"
     },
     {
-      "packagePatterns": ["^@types/"],
+      "automerge": true,
       "matchUpdateTypes": ["minor", "patch", "pin"],
-      "automerge": true
+      "packagePatterns": ["^@types/"]
     },
     {
-      "groupName": "linters and prettier",
+      "automerge": true,
       "extends": ["packages:linters"],
+      "groupName": "linters and prettier",
       "matchPackageNames": ["prettier"],
-      "matchUpdateTypes": ["minor", "patch", "pin"],
-      "automerge": true
+      "matchUpdateTypes": ["minor", "patch", "pin"]
     }
-  ]
+  ],
+  "schedule": ["after 7am every weekend", "before 10pm every weekend"]
 }

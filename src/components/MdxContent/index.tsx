@@ -1,22 +1,27 @@
-import { MDXRemote } from 'next-mdx-remote/rsc'
+import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
+import NextFigureImage from "components/NextFigureImage";
+import options from "libs/options";
 
-import MdxComponents from 'components/MdxComponents'
-import mdxRemoteOption from 'libs/mdx-remote-option'
+const components: MDXRemoteProps["components"] = {
+  img: (props) => <NextFigureImage {...props} />,
+};
 
-import type { MDXRemoteProps } from 'next-mdx-remote/rsc'
+export type MdxContentProps = Pick<
+  MDXRemoteProps,
+  "components" | "options" | "source"
+>;
 
-type MdxContentProps = MDXRemoteProps
-
-const MdxContent = ({ source, options, components }: MdxContentProps) => {
+export default function MdxContent({
+  source,
+  ...props
+}: MdxContentProps): JSX.Element {
   return (
     // https://github.com/hashicorp/next-mdx-remote/issues/307
     /* @ts-expect-error Async Server Component */
     <MDXRemote
+      components={{ ...components, ...props.components }}
+      options={{ ...options, ...props.options }}
       source={source}
-      options={{ ...mdxRemoteOption, ...(options || {}) }}
-      components={{ ...MdxComponents, ...(components || {}) }}
     />
-  )
+  );
 }
-
-export default MdxContent

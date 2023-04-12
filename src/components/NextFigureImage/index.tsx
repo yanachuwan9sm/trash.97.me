@@ -1,47 +1,40 @@
-import Image from 'next/image'
-import Link from 'next/link'
+import Image, { ImageProps } from "next/image";
+import Link from "next/link";
 
-import type { ImageProps } from 'next/image'
-
-type NextFigureImageProps = Omit<
-  ImageProps,
-  'src' | 'width' | 'height' | 'blurDataURL' | 'alt'
+export type NextFigureImageProps = Partial<
+  Pick<ImageProps, "alt" | "blurDataURL" | "src">
 > & {
-  src: string
-  alt?: string
-  aspectRatio: string
-  blurDataURL: string
-}
+  aspectRatio?: string;
+  src?: string;
+};
 
-const NextFigureImage = ({
-  src,
-  alt,
+export default function NextFigureImage({
+  alt = "",
   aspectRatio,
   blurDataURL,
-}: NextFigureImageProps) => {
+  src = "",
+}: NextFigureImageProps): JSX.Element {
   return (
     <figure>
       <Link href={src} scroll={false}>
         <div
           style={{
-            position: 'relative',
-            display: 'flex',
-            aspectRatio: aspectRatio,
+            aspectRatio,
+            display: "flex",
+            position: "relative",
           }}
         >
           <Image
-            style={{ objectFit: 'contain' }}
-            src={src}
-            alt={alt || src}
-            fill={true}
-            placeholder='blur'
+            alt={alt}
             blurDataURL={blurDataURL}
+            fill={true}
+            placeholder="blur"
+            src={src}
+            style={{ objectFit: "contain" }}
           />
         </div>
       </Link>
       <figcaption>{alt}</figcaption>
     </figure>
-  )
+  );
 }
-
-export default NextFigureImage

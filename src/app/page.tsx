@@ -1,44 +1,42 @@
-import * as contentful from 'contentful'
-import { format } from 'date-fns'
-import Link from 'next/link'
-
-import client from 'libs/client'
-
-import styles from './Home.module.css'
+import * as contentful from "contentful";
+import { format } from "date-fns";
+import Link from "next/link";
+import styles from "./style.module.scss";
+import client from "libs/client";
 
 const getBlogPosts = async (): Promise<
   contentful.EntryCollection<Contentful.IBlogPostFields>
 > => {
   const blogPosts = await client.getEntries<Contentful.IBlogPostFields>({
-    content_type: 'blogPost',
-    order: '-sys.createdAt',
-  })
-  return blogPosts
-}
+    content_type: "blogPost",
+    order: "-sys.createdAt",
+  });
 
-export default async function Page() {
-  const postDate = await getBlogPosts()
+  return blogPosts;
+};
 
+export default async function Page(): Promise<JSX.Element> {
+  const postDate = await getBlogPosts();
   const postList = postDate.items.map(
-    ({ sys: { id, createdAt, updatedAt }, fields }) => ({
+    ({ fields, sys: { createdAt, id, updatedAt } }) => ({
       ...fields,
+      createdAt: format(new Date(createdAt), "MMM dd, yyyy"),
       id,
-      createdAt: format(new Date(createdAt), 'MMM dd, yyyy'),
-      updatedAt: format(new Date(updatedAt), 'MMM dd, yyyy'),
+      updatedAt: format(new Date(updatedAt), "MMM dd, yyyy"),
     })
-  )
+  );
 
   return (
     <div className={styles.container}>
       <header>
         <div className={styles.title}>
-          <Link href='/'>My Blog</Link>
+          <Link href="/">My Blog</Link>
         </div>
       </header>
       <main className={styles.main}>
         <h1>記事一覧</h1>
         <ul>
-          {postList.map(({ id, title, category, createdAt }) => (
+          {postList.map(({ category, createdAt, id, title }) => (
             <li key={id}>
               <article>
                 <h2>
@@ -46,7 +44,7 @@ export default async function Page() {
                 </h2>
                 <div>
                   <div>
-                    {category?.map(({ sys: { id }, fields: { title } }) => (
+                    {category?.map(({ fields: { title }, sys: { id } }) => (
                       <div key={id}>{title}</div>
                     ))}
                   </div>
@@ -58,5 +56,5 @@ export default async function Page() {
         </ul>
       </main>
     </div>
-  )
+  );
 }
