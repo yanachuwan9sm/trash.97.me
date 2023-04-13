@@ -3,45 +3,40 @@ import Link from 'next/link'
 
 import type { ImageProps } from 'next/image'
 
-type NextFigureImageProps = Omit<
-  ImageProps,
-  'src' | 'width' | 'height' | 'blurDataURL' | 'alt'
+export type NextFigureImageProps = Partial<
+  Pick<ImageProps, 'alt' | 'blurDataURL' | 'src'>
 > & {
-  src: string
-  alt?: string
-  aspectRatio: string
-  blurDataURL: string
+  aspectRatio?: string
+  src?: string
 }
 
 const NextFigureImage = ({
-  src,
-  alt,
+  src = '',
+  alt = '',
   aspectRatio,
   blurDataURL,
-}: NextFigureImageProps) => {
-  return (
-    <figure>
-      <Link href={src} scroll={false}>
-        <div
-          style={{
-            position: 'relative',
-            display: 'flex',
-            aspectRatio: aspectRatio,
-          }}
-        >
-          <Image
-            style={{ objectFit: 'contain' }}
-            src={src}
-            alt={alt || src}
-            fill={true}
-            placeholder='blur'
-            blurDataURL={blurDataURL}
-          />
-        </div>
-      </Link>
-      <figcaption>{alt}</figcaption>
-    </figure>
-  )
-}
+}: NextFigureImageProps): JSX.Element => (
+  <figure>
+    <Link href={src} scroll={false}>
+      <div
+        style={{
+          position: 'relative',
+          display: 'flex',
+          aspectRatio: aspectRatio,
+        }}
+      >
+        <Image
+          style={{ objectFit: 'contain' }}
+          src={src}
+          alt={alt || src}
+          fill={true}
+          placeholder='blur'
+          blurDataURL={blurDataURL}
+        />
+      </div>
+    </Link>
+    <figcaption>{alt}</figcaption>
+  </figure>
+)
 
 export default NextFigureImage
