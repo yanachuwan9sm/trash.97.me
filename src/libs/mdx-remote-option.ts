@@ -6,6 +6,8 @@ import remarkBreaks from 'remark-breaks'
 import remarkGfm from 'remark-gfm'
 import remarkUnwrapImages from 'remark-unwrap-images'
 
+import rehypeImageOptimum from './rehype-image-optimum'
+
 import type { MDXRemoteProps } from 'next-mdx-remote/rsc'
 import type { Options as rehypeAutolinkHeadingsOpt } from 'rehype-autolink-headings'
 import type { Options as rehypePrettyCodeOpt } from 'rehype-pretty-code'
@@ -45,6 +47,7 @@ const mdxRemoteOption: MDXRemoteProps['options'] = {
   mdxOptions: {
     remarkPlugins: [remarkGfm, remarkBreaks, remarkUnwrapImages],
     rehypePlugins: [
+      rehypeImageOptimum,
       rehypeSlug,
       [rehypeAutolinkHeadings, rehypeAutolinkHeadingsOpt],
       [rehypePrettyCode, rehypePrettyCodeOpt],
