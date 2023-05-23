@@ -7,6 +7,8 @@ import remarkGfm from 'remark-gfm'
 import remarkUnwrapImages from 'remark-unwrap-images'
 
 import rehypeImageOptimum from './rehype-image-optimum'
+import remarkLinkCard from './remark-link-card'
+import remarkLinkCardHandler from './remark-link-card-handler'
 
 import type { MDXRemoteProps } from 'next-mdx-remote/rsc'
 import type { Options as rehypeAutolinkHeadingsOpt } from 'rehype-autolink-headings'
@@ -45,13 +47,23 @@ const rehypePrettyCodeOpt: Partial<rehypePrettyCodeOpt> = {
 
 const mdxRemoteOption: MDXRemoteProps['options'] = {
   mdxOptions: {
-    remarkPlugins: [remarkGfm, remarkBreaks, remarkUnwrapImages],
+    remarkPlugins: [
+      remarkGfm,
+      remarkBreaks,
+      remarkUnwrapImages,
+      remarkLinkCard,
+    ],
     rehypePlugins: [
       rehypeImageOptimum,
       rehypeSlug,
       [rehypeAutolinkHeadings, rehypeAutolinkHeadingsOpt],
       [rehypePrettyCode, rehypePrettyCodeOpt],
     ],
+    remarkRehypeOptions: {
+      handlers: {
+        directLink: remarkLinkCardHandler,
+      },
+    },
     format: 'md',
   },
   parseFrontmatter: false,
