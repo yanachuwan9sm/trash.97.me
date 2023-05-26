@@ -49,8 +49,8 @@ const getMetadataFromWebsite = (url: string) => {
   return fetchSiteMetadata(url).then(
     ({ title, description, image, icon }: Metadata) => ({
       url,
-      title: title ?? 'No title',
-      description: description ?? '',
+      title: title || 'No title',
+      description: description || '',
       ogImage: image?.src?.startsWith('https') ? image?.src : undefined,
       favicon: icon?.startsWith('https') ? icon : undefined,
     })
@@ -77,8 +77,7 @@ const remarkLinkCard: Pluggable =
       tree,
       isDirectLink,
       (node: Paragraph, index: number, parent: Parent | undefined) => {
-        if (!isParent(parent)) return
-        if (!isLink(node.children[0])) return
+        if (!isParent(parent) || !isLink(node.children[0])) return
 
         const childNode = node.children[0]
 

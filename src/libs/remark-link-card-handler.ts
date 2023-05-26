@@ -18,9 +18,7 @@ const remarkLinkCardHandler = (_h: H, { meta }: DirectLink) => {
   return {
     type: 'element' as const,
     tagName: 'directLink',
-    properties: {
-      ...meta,
-    },
+    properties: meta,
     children: [],
   }
 }
