@@ -55,7 +55,7 @@ const LinkCard = ({
       </div>
       <div>
         {typeof ogImage !== undefined ? (
-          <Fragment>
+          <>
             <div style={{ maxWidth: '230px', height: '100px' }}>
               <img
                 style={{
@@ -67,9 +67,9 @@ const LinkCard = ({
                 alt={description}
               />
             </div>
-          </Fragment>
+          </>
         ) : (
-          <></>
+          <Fragment></Fragment>
         )}
       </div>
     </a>
