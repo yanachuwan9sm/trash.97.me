@@ -3,7 +3,11 @@ const { withPlaiceholder } = require('@plaiceholder/next')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverComponentsExternalPackages: ['plaiceholder', '@plaiceholder/next'],
+    serverComponentsExternalPackages: [
+      'plaiceholder',
+      '@plaiceholder/next',
+      'fetch-site-metadata',
+    ],
     appDir: true,
     // typedRoutes: true,
   },
