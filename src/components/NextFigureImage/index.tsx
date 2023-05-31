@@ -11,10 +11,10 @@ export type NextFigureImageProps = Partial<
 }
 
 const NextFigureImage = ({
-  src = '',
   alt = '',
   aspectRatio,
   blurDataURL,
+  src = '',
 }: NextFigureImageProps): JSX.Element => (
   <figure>
     <Link href={src} scroll={false}>

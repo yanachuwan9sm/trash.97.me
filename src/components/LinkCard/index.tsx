@@ -9,11 +9,11 @@ export type LinkCardProps = {
 }
 
 const LinkCard = ({
-  url,
-  title,
   description,
-  ogImage,
   favicon,
+  ogImage,
+  title,
+  url,
 }: LinkCardProps) => (
   <div
     style={{

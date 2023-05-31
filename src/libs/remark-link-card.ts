@@ -1,9 +1,10 @@
 import fetchSiteMetadata from 'fetch-site-metadata'
 import { Paragraph, Link } from 'mdast'
-import { Node, Parent, Data } from 'unist'
+import { Node, Parent } from 'unist'
 import { visit } from 'unist-util-visit'
 
-import type { Metadata } from 'fetch-site-metadata'
+import { LinkCardProps } from 'components/LinkCard'
+
 import type { Pluggable } from 'unified'
 import type { VFileCompatible } from 'vfile'
 
@@ -45,16 +46,16 @@ const isDirectLink = (node: unknown): node is Paragraph => {
   )
 }
 
-const getMetadataFromWebsite = (url: string) => {
-  return fetchSiteMetadata(url).then(
-    ({ title, description, image, icon }: Metadata) => ({
-      url,
-      title: title || 'No title',
-      description: description || '',
-      ogImage: image?.src?.startsWith('https') ? image?.src : undefined,
-      favicon: icon?.startsWith('https') ? icon : undefined,
-    })
-  )
+const getMetadataFromWebsite = async (url: string): Promise<LinkCardProps> => {
+  const { description, icon, image, title } = await fetchSiteMetadata(url)
+
+  return {
+    url,
+    title: title || 'No title',
+    description: description || '',
+    ogImage: image?.src?.startsWith('https') ? image?.src : undefined,
+    favicon: icon?.startsWith('https') ? icon : undefined,
+  }
 }
 
 interface DirectLink extends Node {
