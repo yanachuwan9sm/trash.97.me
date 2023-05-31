@@ -11,14 +11,15 @@ const rehypeImageOptimum: Pluggable =
     const promiseFuncs: (() => Promise<void>)[] = []
 
     visit(tree, 'element', (node: Element) => {
-      if (node.tagName !== 'img' && typeof node?.properties?.src !== 'string') {
+      if (node.tagName !== 'img') {
         return
       }
       promiseFuncs.push(async () => {
         if (!node.properties) return
+        if (typeof node?.properties?.src !== 'string') return
         const {
-          img: { width, height, src },
           base64,
+          img: { height, src, width },
         } = await getPlaiceholder(`https:${node.properties.src}`)
         node.properties.src = src
         node.properties.width = width
