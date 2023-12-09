@@ -1,21 +1,10 @@
-const { withPlaiceholder } = require('@plaiceholder/next')
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverComponentsExternalPackages: [
-      'plaiceholder',
-      '@plaiceholder/next',
-      'fetch-site-metadata',
-    ],
-    appDir: true,
-    // typedRoutes: true,
+    serverComponentsExternalPackages: ['fetch-site-metadata'],
   },
   reactStrictMode: true,
   swcMinify: true,
-  images: {
-    domains: ['images.ctfassets.net'],
-  },
 }
 
-module.exports = withPlaiceholder(nextConfig)
+module.exports = nextConfig
