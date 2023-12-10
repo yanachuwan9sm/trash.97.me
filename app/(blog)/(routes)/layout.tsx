@@ -25,10 +25,10 @@ export default function Layout({
         mondwest.variable,
         serenityOSEmoji.variable,
         'font-sans antialiased',
-        'mx-auto mb-10 max-w-2xl px-2 md:px-0',
+        'mx-auto mb-10 min-h-screen max-w-2xl px-2 md:px-0',
       )}
     >
-      <main className='flex flex-col items-center justify-center px-2 md:px-0'>
+      <main className='flex flex-auto flex-col items-center justify-center px-2 md:px-0'>
         <Header />
         {children}
       </main>
