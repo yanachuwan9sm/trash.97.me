@@ -19,7 +19,7 @@ export default function Page() {
           Read my Blog
         </span>
       </h2>
-      <ul className='flex w-full list-none flex-col'>
+      <ul className='flex w-full flex-1 list-none flex-col'>
         {allPosts
           .sort((a, b) => {
             if (
