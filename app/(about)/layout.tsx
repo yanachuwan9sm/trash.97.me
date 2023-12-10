@@ -2,13 +2,6 @@ import { Header } from '_components/Header'
 import { cn } from '_libs/utils'
 import { mondwest, montserrat, notojp, serenityOSEmoji } from '_ui/font'
 
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = {
-  title: 'About me',
-  description: 'description 🗑️ ',
-}
-
 export default function Layout({
   children,
 }: {

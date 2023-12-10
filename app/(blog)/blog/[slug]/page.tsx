@@ -1,5 +1,5 @@
 import { ArrowLeft } from 'lucide-react'
-import { Metadata } from 'next'
+import { Metadata, ResolvingMetadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -40,12 +40,14 @@ function formatDate(date: string) {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/require-await
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string }
-}): Promise<Metadata | undefined> {
+export async function generateMetadata(
+  {
+    params,
+  }: {
+    params: { slug: string }
+  },
+  parent: ResolvingMetadata,
+): Promise<Metadata | undefined> {
   const post = getBlogPosts().find((post) => post.slug === params.slug)
   if (!post) {
     return
@@ -66,11 +68,13 @@ export async function generateMetadata({
       type: 'article',
       publishedTime,
       url: withBaseUrl(`/${post.slug}`),
+      images: (await parent).openGraph?.images || [],
     },
     twitter: {
       card: 'summary',
       title,
       description,
+      images: (await parent).twitter?.images || [],
     },
   }
 }
