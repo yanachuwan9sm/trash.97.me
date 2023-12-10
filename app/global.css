@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 .prose {
-  @apply text-mauve12;
+  @apply dark:text-mauve12 text-mauve1;
 }
 
 .prose h2,
 h3,
 h4 {
-  @apply text-mauve12 font-semibold flex flex-row items-center gap-x-2 mb-5 mt-10 tracking-tighter !important;
+  @apply dark:text-mauve12 text-mauve1 mb-5 mt-10 flex flex-row items-center gap-x-2 font-semibold tracking-tighter !important;
 }
 
 .prose h2 {
-  @apply text-xl pb-2 border-b-2 border-mauve3;
+  @apply border-b-2 border-mauve9 dark:border-mauve3 pb-2 text-xl;
 }
 
 .prose h3,
@@ -22,33 +22,33 @@ h4 {
 }
 
 .prose .anchor-icon {
-  @apply stroke-mauve12 opacity-20 transition-opacity duration-200 ease-in-out hover:opacity-80;
+  @apply stroke-mauve5 dark:stroke-mauve12 opacity-20 hover:opacity-80 transition-opacity duration-200 ease-in-out;
 }
 
 .prose p {
-  @apply text-mauve12;
+  @apply dark:text-mauve12 text-mauve1;
 }
 
 .prose strong {
-  @apply text-mauve12;
+  @apply dark:text-mauve12 text-mauve1;
 }
 
 .prose a:not([aria-hidden]) {
-  @apply mx-1 text-sky-400 font-bold decoration-sky-400 underline-offset-2 transition-all decoration-[0.1em] hover:bg-sky-400 hover:text-mauve1;
+  @apply mx-1 hover:bg-sky-200 dark:hover:bg-sky-400 font-bold text-sky-600 dark:text-sky-400 decoration-sky-600 dark:decoration-sky-400 decoration-[0.1em] underline-offset-2 transition-all hover:text-mauve1;
 }
 
 code:not(div[data-rehype-pretty-code-fragment] code, pre code) {
-  @apply text-mauve12 bg-mauve3 before:content-none after:content-none;
+  @apply dark:text-mauve12 text-mauve1 bg-mauve11 dark:bg-mauve3 before:content-none after:content-none;
 }
 
 .prose pre {
-  @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900;
+  @apply overflow-x-auto rounded-lg border border-neutral-200 bg-neutral-50 dark:bg-neutral-900 dark:border-neutral-900;
 }
 
 .prose code {
-  @apply px-1 py-0.5 rounded-lg;
+  @apply rounded-lg px-1 py-0.5;
 }
 
 .prose blockquote p {
-  @apply text-mauve10;
+  @apply text-mauve6 dark:text-mauve10;
 }

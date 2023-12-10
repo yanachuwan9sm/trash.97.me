@@ -15,7 +15,7 @@ export default function Page() {
     <>
       <h2 className='relative mb-4 font-mondwest text-4xl'>
         <span>Read my Blog</span>
-        <span className='absolute  left-[3px] w-full text-stroke-mauve12'>
+        <span className='absolute  left-[2px] w-full text-stroke-mauve1 dark:text-stroke-mauve12'>
           Read my Blog
         </span>
       </h2>
@@ -43,7 +43,7 @@ export default function Page() {
                   <Link className='w-fit text-base' href={`/blog/${slug}`}>
                     {title}
                   </Link>
-                  <time className='text-xs text-mauve10'>
+                  <time className='dark:text-mauve-10 text-xs text-mauve6'>
                     {new Date(publishedAt).toLocaleString('en-US', {
                       month: 'long',
                       day: 'numeric',
