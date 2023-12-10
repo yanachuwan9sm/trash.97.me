@@ -1,6 +1,12 @@
+import { Metadata } from 'next'
 import Link from 'next/link'
 
 import { getBlogPosts } from '_libs/blog-contents'
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'Read my thoughts on Frontend engineering, design, and more.',
+}
 
 export default function Page() {
   const allPosts = getBlogPosts()

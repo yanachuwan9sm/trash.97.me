@@ -1,9 +1,11 @@
 import { ArrowLeft } from 'lucide-react'
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { CustomMDX } from '_components/blog/CustomMDX'
 import { getBlogPosts } from '_libs/blog-contents'
+import { withBaseUrl } from '_libs/utils'
 
 function formatDate(date: string) {
   const currentDate = new Date()
@@ -35,6 +37,41 @@ function formatDate(date: string) {
   return {
     formattedPublishedDate,
     relativeTime,
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/require-await
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string }
+}): Promise<Metadata | undefined> {
+  const post = getBlogPosts().find((post) => post.slug === params.slug)
+  if (!post) {
+    return
+  }
+
+  const {
+    publishedAt: publishedTime,
+    summary: description,
+    title,
+  } = post.metadata
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      publishedTime,
+      url: withBaseUrl(`/${post.slug}`),
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
   }
 }
 

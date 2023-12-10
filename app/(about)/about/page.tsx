@@ -7,6 +7,9 @@ export default function Page() {
           About Me
         </span>
       </h2>
+      <span className='font-serenityOSEmoji text-[30rem] leading-tight'>
+        🗑️
+      </span>
     </>
   )
 }
