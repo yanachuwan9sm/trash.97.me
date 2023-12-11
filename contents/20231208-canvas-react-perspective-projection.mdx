@@ -1,0 +1,161 @@
+---
+title: 'React と CanvasAPI で Perspective Projection ライクな2D描画をする'
+publishedAt: '2023-12-8'
+summary: 'canvas2D楽しいね'
+thumbnail: '🤖'
+---
+
+## 完成品
+
+<Image
+  alt='first-view-animation'
+  src='/images/20231208-canvas-react-perspective-projection/first-view-animation.gif'
+  width={450}
+  height={200}
+/>
+
+当ブログトップページの Above the fold で実装してるヤーツです。
+
+一応[サンドボックス](https://stackblitz.com/edit/twtsreact-tbcogp?file=README.md)も作ったので、眺めてみてください。
+
+誰の役に立つかはイマイチですが、ネットに情報があまり落ちてなかったので備忘録程度に書いておきます。
+
+## なんで `CanvasAPI （CanvasRenderingContext2D）` で実装したのか
+
+**透視投影変換（perspective projection）** は投影変換の１つであり、
+難しい表現を使わずに一言で言うと、「近くのものが大きく，遠いものが小さくなる」動きをします。
+
+**近くのものは大きく見えて，遠いものが小さく見えるんですね。（当たり前発言ネタ）**
+
+そういう類のヤツなら、WebGLの方が向いてるんじゃないの？ってなるんですが、
+GLSLは書きたくないし読めないですし（勉強する気も起きない）、Three.js を使うとなるとJSのバンドルサイズが大きくなってしまう事から、どうにか canvasAPI で対応できないか？と思って実装してます。
+
+もう一つ前向きな理由として、外部依存パッケージをなるべく減らしたかった & JSのンドルサイズを抑えたかった事が挙げられますかね。
+
+今回は詳しく言及しませんが、[パフォーマンスの観点](https://2dgraphs.netlify.app/)においても、canvasAPI で再現できるケースは積極的に canvasAPI を仕様した方が良さそうです。（この辺りの調査はゆるゆるなので悪しからず）
+
+## 大まかな実装の流れ
+
+**canvasの中央から螺旋を描きながら外側に軌道を描くアニメーション**にしたいので、今回の実装では以下の処理を行ってます。
+
+1. 生成したい数の星の分、最初に描画する位置および色を決定する
+2. 星を次の移動座標に更新する（次の移動座標がない場合は再度生成）
+3. 星が持つ3次元座標を2次元座標に投影し、canvas要素の中心を基点とした2次元座標に更新する
+4. 星の大きさを更新する
+5. starを回転させる（オマケ）
+6. 更新結果を元に描画する
+
+手順2-6 をディスプレイのリフレッシュレートに応じて繰り返し実行することで実現できそうです。
+
+## 実装のポイント
+
+### gl-matrix
+
+当たり前なんですが、2Dしか表現できない世界で奥行きを表現する必要があります。
+ベクトルや行列の演算処理に関するAPIはデフォルトのJavaScriptでは提供されていないため、行列やベクトルの計算を簡単に扱える（少し癖はありますが） [gl-matrix](https://github.com/toji/gl-matrix)というnpmパッケージを今回は使用しています。
+
+ベクトルや行列の演算をWebGLでの使用を想定した上でパフォーマンスを意識して設計されている事や、Githubのスター数も多い（2023年12月時点で5.1k）ことから採用しました。
+
+```ts
+// node_modules/gl-matrix/index.d.ts
+
+// インスタンスは全て Float32Array型 の単なる配列である
+export type vec2 = [number, number] | Float32Array
+export type vec3 = [number, number, number] | Float32Array
+export type vec4 = [number, number, number, number] | Float32Array
+```
+
+先ほど使い方に癖があると申しましたが、ラップ関数やクラスを自前で用意しないと演算処理が少し冗長なものになっています。原因は２つあります。
+
+1. `vec2` や `vec3` のインスタンスは `Float32Array` が持っているものを除いて、メソッドが生えている訳ではない。
+2. 行列同士の演算の結果は、関数の戻り値として取得するのではなく、引数として渡した変数の中に格納される。
+
+```ts
+// 以下の2つの3次元ベクトルの加算を行う場合
+const position = vec3.fromValues(x, y, DISTANCE_Z)
+const velocity = vec3.fromValues(0, 0, -SPEED)
+
+// ❌ : vec3のインスタンスに加算のメソッドが生えている訳ではない & 加算結果を戻り値として取得しない
+const nextPosition = position.add(velocity)
+
+// ✅
+const nextPosition = vec3.create()
+vec3.add(nextPosition, position, velocity)
+
+vec3.add(position, velocity) // positionを変更するだけなら、出力先を引数として書く必要はない。
+vec3.add(position, [0, 0, -SPEED]) // vec3インスタンスは結局ただの Float32Array なので配列も渡せる。
+```
+
+また、gl-matrix を用いた演算処理の書き方や種類などは [このスライド](https://docs.google.com/presentation/u/1/d/19GaxYDbg41Eh8TX16uTwhMHkhsc_Od4A1xXkGs6G110/htmlpresent)で分かりやすく説明されておりますので、是非ご覧下さい。
+
+### 星の初期位置の生成
+
+<Image
+  alt='sin-cos-animation'
+  src='/images/20231208-canvas-react-perspective-projection/sin__cos_animation.gif'
+  width={300}
+  height={240}
+  caption='参照 : https://commons.wikimedia.org/wiki/File:Sine_and_cosine_animation.gif?uselang=ja'
+/>
+
+螺旋上に星の初期位置が生成させるようにするために、以下のような実装になります。（何で `sin` と `cos` が出てくんねん！という方は数学的な説明は避けますので、上の図を見てください。）
+
+```ts
+const genStartPosition = (canvasHeight: number): vec3 => {
+  const SCALE = 50
+  const DISTANCE_Z = 60
+
+  const angle = random(0, 2 * Math.PI)
+  const radius = random(canvasHeight / SCALE, canvasHeight) * SCALE
+
+  const x = Math.sin(angle) * radius
+  const y = Math.cos(angle) * radius
+
+  return vec3.fromValues(x, y, DISTANCE_Z)
+}
+```
+
+### canvas要素の座標系を変換
+
+3次元空間のベクトルを2次元空間に投影するための簡単な手法としては `z`成分を除算することで、簡単に実現できます。
+
+地味に見落としていて若干時間を溶かしてしまった所なのですが、canvas は左上隅を原点とし Y軸は下に向かっているため、計算がしやすいようにcanvas要素の中心を基点とした2次元座標に変換する必要があります。
+
+そのため、実際にcanvas上に描画する位置として `screenPosition` と言うプロパティを設定しています。
+
+```tsx
+type Star = {
+  position: vec3
+  screenPosition: vec2
+  size: number
+  speed: number
+  color: string
+}
+```
+
+また、二次元ベクトルに変換した星のベクトルとcanvas要素の中心を表す二次元ベクトルを加算することで、canvas要素の中心を基点とした二次元ベクトルに変換する処理を行っています。
+
+```tsx
+/* 3次元座標を持つstarを2次元座標に変換し、canvas要素の中心を基点とした2次元座標に更新する */
+
+/* canvas要素の中心を表すベクトル */
+const canvasCenterVec = vec2.fromValues(canvasWidth / 2, canvasHeight / 2)
+
+const starVec = vec2.fromValues(star.position[0], star.position[1])
+const zOnlyVec = vec2.fromValues(star.position[2], star.position[2])
+
+/* 二次元ベクトルに変換した星のベクトル */
+const starVecWithoutZVec = vec2.add(
+  vec2.create(),
+  starVecWithoutZVec,
+  canvasCenterVec,
+)
+
+/* canvas要素の中心を基点とした星のベクトル */
+const starVec = vec2.div(vec2.create(), starVec, zOnlyVec)
+```
+
+## 終わりに
+
+最初は敷居が高いのかな〜と思ってたんですが、簡単な表現であれば canvasAPI でも簡単に実装できるな！と思いました。
+公開しているサンドボックスは殴り書きのままで荒々しいものなので、参考程度でお願いします（笑）
