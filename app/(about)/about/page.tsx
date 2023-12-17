@@ -50,7 +50,7 @@ export default function Page() {
           <li>music (hiphop / randb / house)</li>
           <li>React / Next.js</li>
           <li>TypeScript</li>
-          <li>WebGL technology</li>
+          <li>WebGL</li>
           <li>design (modern / retro)</li>
         </ul>
         <h3>interest</h3>
@@ -58,8 +58,6 @@ export default function Page() {
           <li>UI / UX</li>
           <li>Design System</li>
           <li>Web performance</li>
-          <li>Frontend Test</li>
-          <li>WebSocket / WebWorker</li>
           <li>LLM(ChatGPT / LangChain)</li>
         </ul>
         <h3>outside of work</h3>
