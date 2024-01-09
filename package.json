@@ -63,5 +63,8 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "0.5.10"
+  },
+  "volta": {
+    "node": "20.10.0"
   }
 }
