@@ -57,4 +57,8 @@ export default {
     },
   },
   plugins: [typography, TextStrokePlugin],
+  future: {
+    hoverOnlyWhenSupported:
+      true /* Disable pseudo-element hover: on mobile devices */,
+  },
 } satisfies Config

@@ -16,7 +16,10 @@ export default function Page() {
               <span>This is</span>
               <span className='font-serenityOSEmoji leading-tight'>🗑️</span>
               <span>
-                Trash.<span className='bg-white text-mauve1'>97</span>
+                Trash.
+                <span className='bg-mauve1 text-white dark:bg-white dark:text-mauve1'>
+                  97
+                </span>
               </span>
             </div>
           </h1>

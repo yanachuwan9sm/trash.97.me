@@ -17,13 +17,13 @@ export const Header = () => {
       </Link>
       <nav className='flex flex-row gap-x-2'>
         <Link
-          className='underline-offset-3 underline transition-colors duration-200 hover:text-mauve11 active:text-mauve10'
+          className='underline-offset-3 underline transition-colors duration-200 hover:text-mauve8 active:text-mauve7 dark:hover:text-mauve11 dark:active:text-mauve10'
           href='/blog'
         >
           Blog
         </Link>
         <Link
-          className='underline-offset-3 underline transition-colors duration-200 hover:text-mauve11'
+          className='underline-offset-3 underline transition-colors duration-200 hover:text-mauve8 active:text-mauve7 dark:hover:text-mauve11 dark:active:text-mauve10'
           href='/about'
         >
           Me

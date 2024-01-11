@@ -13,7 +13,7 @@ h4 {
 }
 
 .prose h2 {
-  @apply border-b-2 border-mauve9 dark:border-mauve3 pb-2 text-xl;
+  @apply border-b border-mauve11 dark:border-mauve8 pb-2 text-xl;
 }
 
 .prose h3,
@@ -22,7 +22,7 @@ h4 {
 }
 
 .prose .anchor-icon {
-  @apply stroke-mauve5 dark:stroke-mauve12 opacity-20 hover:opacity-80 transition-opacity duration-200 ease-in-out;
+  @apply stroke-mauve1 dark:stroke-mauve12 opacity-10 hover:opacity-80 transition-opacity duration-200 ease-in-out;
 }
 
 .prose p {

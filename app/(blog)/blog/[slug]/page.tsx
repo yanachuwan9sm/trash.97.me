@@ -102,7 +102,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   return (
     <article className='flex w-full flex-col break-words'>
       <Link
-        className='mb-8 flex flex-row items-center gap-x-2 stroke-mauve10/70 text-mauve12/70 transition-colors duration-200 ease-in-out hover:stroke-mauve12/90 hover:text-mauve12/90'
+        className='mb-8 flex flex-row items-center gap-x-2 stroke-mauve8 text-mauve8 transition-colors duration-200 ease-in-out hover:stroke-mauve10 hover:text-mauve10 dark:stroke-mauve10 dark:text-mauve10 dark:hover:stroke-mauve12 dark:hover:text-mauve12'
         href='/blog'
       >
         <ArrowLeft className='h-4 w-4' />
@@ -113,7 +113,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           {post.metadata.thumbnail || ''}
         </div>
         <h1 className='text-2xl font-bold'>{post.metadata.title}</h1>
-        <p className='font-stack text-sm text-mauve11'>
+        <p className='font-stack text-sm text-mauve8 dark:text-mauve10'>
           <time>{formattedPublishedDate}</time> ({relativeTime})
         </p>
       </header>

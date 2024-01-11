@@ -19,7 +19,7 @@ export default function Page() {
           Read my Blog
         </span>
       </h2>
-      <ul className='flex w-full flex-1 list-none flex-col'>
+      <ul className='mt-10 flex w-full flex-1 list-none flex-col'>
         {allPosts
           .sort((a, b) => {
             if (
@@ -34,7 +34,6 @@ export default function Page() {
             <li className='group relative font-notojp' key={slug}>
               <div className='flex flex-row items-center gap-x-3 px-3 py-2'>
                 <Link href={`/blog/${slug}`}>
-                  {/* <Twemoji emoji={thumbnail || ''} height={35} width={35} /> */}
                   <div className='font-serenityOSEmoji text-3xl'>
                     {thumbnail}
                   </div>
@@ -43,7 +42,7 @@ export default function Page() {
                   <Link className='w-fit text-base' href={`/blog/${slug}`}>
                     {title}
                   </Link>
-                  <time className='dark:text-mauve-10 text-xs text-mauve6'>
+                  <time className='text-xs text-mauve8 dark:text-mauve10'>
                     {new Date(publishedAt).toLocaleString('en-US', {
                       month: 'long',
                       day: 'numeric',
