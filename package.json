@@ -18,7 +18,7 @@
     "@eslint/js": "8.55.0",
     "@radix-ui/colors": "2.1.0",
     "@types/gl-matrix": "3.2.0",
-    "@types/node": "18.19.10",
+    "@types/node": "20.11.30",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "@typescript-eslint/eslint-plugin": "6.14.0",
@@ -65,6 +65,6 @@
     "@tailwindcss/typography": "0.5.10"
   },
   "volta": {
-    "node": "20.10.0"
+    "node": "20.12.0"
   }
 }
